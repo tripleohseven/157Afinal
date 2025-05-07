@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.AppointmentFormController">
+
+    <top>
+        <Label text="Appointment Form"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <GridPane hgap="20" vgap="15" alignment="CENTER">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <Label text="Patient ID:"/>
+            <TextField fx:id="patientIdField" GridPane.columnIndex="1"/>
+
+            <Label text="Doctor ID:" GridPane.rowIndex="1"/>
+            <TextField fx:id="doctorIdField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Date:" GridPane.rowIndex="2"/>
+            <DatePicker fx:id="datePicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Time:" GridPane.rowIndex="3"/>
+            <TextField fx:id="timeField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <Label text="Reason:" GridPane.rowIndex="4"/>
+            <TextField fx:id="reasonField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            <Label text="Status:" GridPane.rowIndex="5"/>
+            <TextField fx:id="statusField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        </GridPane>
+    </center>
+
+    <bottom>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Button text="Save" fx:id="saveButton"/>
+            <Button text="Cancel" fx:id="cancelButton"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
