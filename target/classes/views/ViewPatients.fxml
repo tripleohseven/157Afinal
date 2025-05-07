@@ -6,17 +6,26 @@
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.hospital.controller.ViewPatientsController">
 
+    <!-- Top: Title and Search Bar -->
     <top>
         <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
             <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
+                <Insets top="20" right="20" bottom="10" left="20"/>
             </padding>
+
             <Label text="Patients List"
                    style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
-            <TextField fx:id="searchField" promptText="Search by name or phone..." prefWidth="300"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Search:"/>
+                <TextField fx:id="searchField" promptText="Search by name or phone..." prefWidth="300"/>
+                <Button fx:id="searchButton" text="Search"/>
+                <Button fx:id="clearSearchButton" text="Clear"/>
+            </HBox>
         </VBox>
     </top>
 
+    <!-- Center: TableView -->
     <center>
         <TableView fx:id="patientsTable" prefWidth="700" prefHeight="500">
             <columns>
@@ -30,6 +39,7 @@
         </TableView>
     </center>
 
+    <!-- Bottom: Action Buttons -->
     <bottom>
         <HBox spacing="10" alignment="CENTER">
             <padding>

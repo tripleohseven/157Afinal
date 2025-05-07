@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ViewPatientsController {
 
@@ -50,12 +51,18 @@ public class ViewPatientsController {
     @FXML
     private TextField searchField;
 
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private Button clearSearchButton;
+
     private ObservableList<Patient> fullPatientList;
 
     @FXML
     private void initialize() {
 
-        // Link columns with Patient attributes
+        // Link columns
         idColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         fullNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
@@ -70,13 +77,13 @@ public class ViewPatientsController {
         backButton.setOnAction(e -> goBack());
         editButton.setOnAction(e -> editSelectedPatient());
         deleteButton.setOnAction(e -> deleteSelectedPatient());
-
-        // Search filter
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filterPatients(newValue);
-        });
+        searchButton.setOnAction(e -> searchPatients());
+        clearSearchButton.setOnAction(e -> loadPatients());
     }
 
+    /**
+     * Load patients from database
+     */
     private void loadPatients() {
         PatientDAO dao = new PatientDAO();
 
@@ -86,27 +93,36 @@ public class ViewPatientsController {
             patientsTable.setItems(fullPatientList);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            showAlert("Error", "Could not connect to the database or load patients.\nPlease make sure the database server is running.");
+            showAlert("Error", "Could not load patients from database.");
         }
     }
 
-    private void filterPatients(String filter) {
-        if (filter == null || filter.isEmpty()) {
-            patientsTable.setItems(fullPatientList);
+    /**
+     * Search patients by full name or phone
+     */
+    private void searchPatients() {
+        String keyword = searchField.getText().trim().toLowerCase();
+
+        if (keyword.isEmpty()) {
+            showAlert("Warning", "Please enter a search term.");
             return;
         }
 
-        ObservableList<Patient> filteredList = FXCollections.observableArrayList();
-        for (Patient patient : fullPatientList) {
-            if (patient.getFullName().toLowerCase().contains(filter.toLowerCase()) ||
-                    patient.getPhone().contains(filter)) {
-                filteredList.add(patient);
-            }
-        }
+        List<Patient> filtered = fullPatientList.stream()
+                .filter(p -> p.getFullName().toLowerCase().contains(keyword) ||
+                        p.getPhone().contains(keyword))
+                .collect(Collectors.toList());
 
-        patientsTable.setItems(filteredList);
+        patientsTable.setItems(FXCollections.observableArrayList(filtered));
+
+        if (filtered.isEmpty()) {
+            showAlert("Info", "No matching patients found.");
+        }
     }
 
+    /**
+     * Edit selected patient
+     */
     private void editSelectedPatient() {
         Patient selected = patientsTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
@@ -129,22 +145,38 @@ public class ViewPatientsController {
         }
     }
 
+    /**
+     * Delete selected patient (with confirmation)
+     */
     private void deleteSelectedPatient() {
         Patient selected = patientsTable.getSelectionModel().getSelectedItem();
         if (selected != null) {
-            PatientDAO dao = new PatientDAO();
-            if (dao.delete(selected.getPatientId())) {
-                patientsTable.getItems().remove(selected);
-                fullPatientList.remove(selected);
-                showAlert("Success", "Patient deleted successfully.");
-            } else {
-                showAlert("Error", "Could not delete patient.");
-            }
+
+            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+            confirm.setTitle("Confirm Delete");
+            confirm.setHeaderText(null);
+            confirm.setContentText("Are you sure you want to delete this patient?");
+            confirm.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    PatientDAO dao = new PatientDAO();
+                    if (dao.delete(selected.getPatientId())) {
+                        patientsTable.getItems().remove(selected);
+                        fullPatientList.remove(selected);
+                        showAlert("Success", "Patient deleted successfully.");
+                    } else {
+                        showAlert("Error", "Could not delete patient.");
+                    }
+                }
+            });
+
         } else {
             showAlert("Warning", "Please select a patient to delete.");
         }
     }
 
+    /**
+     * Go back to Dashboard
+     */
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
@@ -158,6 +190,9 @@ public class ViewPatientsController {
         }
     }
 
+    /**
+     * Show alert dialog
+     */
     private void showAlert(String title, String content) {
         Alert.AlertType type = Alert.AlertType.INFORMATION;
 
@@ -165,6 +200,8 @@ public class ViewPatientsController {
             type = Alert.AlertType.ERROR;
         } else if (title.equalsIgnoreCase("Warning")) {
             type = Alert.AlertType.WARNING;
+        } else if (title.equalsIgnoreCase("Info")) {
+            type = Alert.AlertType.INFORMATION;
         }
 
         Alert alert = new Alert(type);

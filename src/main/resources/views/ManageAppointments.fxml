@@ -4,31 +4,53 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hospital.controller.ManageAppointmentsController">
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.ManageAppointmentsController">
 
+    <!-- Top: Title and Search Bar -->
+    <top>
+        <VBox spacing="10" alignment="CENTER" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="10" left="20"/>
+            </padding>
+
+            <Label text="Manage Appointments"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Search:" />
+                <TextField fx:id="searchField" promptText="Enter Patient ID or Reason..." prefWidth="300"/>
+                <Button fx:id="searchButton" text="Search" />
+                <Button fx:id="clearSearchButton" text="Clear" />
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Center: Appointments Table -->
     <center>
-        <TableView fx:id="appointmentsTable" prefHeight="400" prefWidth="600">
+        <TableView fx:id="appointmentsTable" prefHeight="500" prefWidth="800">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" />
-                <TableColumn fx:id="patientColumn" text="Patient ID" />
-                <TableColumn fx:id="doctorColumn" text="Doctor ID" />
-                <TableColumn fx:id="dateColumn" text="Date" />
-                <TableColumn fx:id="timeColumn" text="Time" />
-                <TableColumn fx:id="reasonColumn" text="Reason" />
-                <TableColumn fx:id="statusColumn" text="Status" />
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="patientColumn" text="Patient ID" prefWidth="100"/>
+                <TableColumn fx:id="doctorColumn" text="Doctor ID" prefWidth="100"/>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="100"/>
+                <TableColumn fx:id="timeColumn" text="Time" prefWidth="80"/>
+                <TableColumn fx:id="reasonColumn" text="Reason" prefWidth="150"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
             </columns>
         </TableView>
     </center>
 
+    <!-- Bottom: Action Buttons -->
     <bottom>
         <HBox spacing="10" alignment="CENTER">
             <padding>
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
-            <Button fx:id="addButton" text="Add" />
-            <Button fx:id="editButton" text="Edit" />
-            <Button fx:id="deleteButton" text="Delete" />
-            <Button fx:id="backButton" text="Back" />
+            <Button fx:id="addButton" text="Add New Appointment"/>
+            <Button fx:id="editButton" text="Edit Selected Appointment"/>
+            <Button fx:id="deleteButton" text="Delete Selected Appointment"/>
+            <Button fx:id="backButton" text="Back to Dashboard"/>
         </HBox>
     </bottom>
 

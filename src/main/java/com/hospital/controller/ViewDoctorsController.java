@@ -8,12 +8,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ViewDoctorsController {
 
@@ -39,6 +39,18 @@ public class ViewDoctorsController {
     private Button backButton;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private Button clearSearchButton;
+
+    private DoctorDAO doctorDAO = new DoctorDAO();
+    private ObservableList<Doctor> doctorList;
+
+    @FXML
     private void initialize() {
 
         // Link columns with Doctor attributes
@@ -51,22 +63,29 @@ public class ViewDoctorsController {
         // Load data
         loadDoctors();
 
-        // Back button action
+        // Button actions
         backButton.setOnAction(e -> goBack());
+        searchButton.setOnAction(e -> searchDoctors());
+        clearSearchButton.setOnAction(e -> loadDoctors());
     }
 
+    /**
+     * Load all doctors from database
+     */
     private void loadDoctors() {
-        DoctorDAO dao = new DoctorDAO();
-
         try {
-            ObservableList<Doctor> doctorsList = FXCollections.observableArrayList(dao.selectAll());
-            doctorsTable.setItems(doctorsList);
+            List<Doctor> doctors = doctorDAO.selectAll();
+            doctorList = FXCollections.observableArrayList(doctors);
+            doctorsTable.setItems(doctorList);
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Could not load doctors from database. Please try again later.");
+            showAlert("Error", "Could not load doctors from database.");
         }
     }
 
+    /**
+     * Go back to dashboard
+     */
     private void goBack() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
@@ -80,9 +99,42 @@ public class ViewDoctorsController {
         }
     }
 
+    /**
+     * Search doctors by full name or specialty
+     */
+    private void searchDoctors() {
+        String keyword = searchField.getText().trim().toLowerCase();
+
+        if (keyword.isEmpty()) {
+            showAlert("Warning", "Please enter a search term.");
+            return;
+        }
+
+        List<Doctor> filtered = doctorList.stream()
+                .filter(doc -> doc.getFullName().toLowerCase().contains(keyword) ||
+                        doc.getSpecialty().toLowerCase().contains(keyword))
+                .collect(Collectors.toList());
+
+        doctorsTable.setItems(FXCollections.observableArrayList(filtered));
+
+        if (filtered.isEmpty()) {
+            showAlert("Info", "No matching doctors found.");
+        }
+    }
+
     // Show Alert Dialog
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert.AlertType type = Alert.AlertType.INFORMATION;
+
+        if (title.equalsIgnoreCase("Error")) {
+            type = Alert.AlertType.ERROR;
+        } else if (title.equalsIgnoreCase("Warning")) {
+            type = Alert.AlertType.WARNING;
+        } else if (title.equalsIgnoreCase("Info")) {
+            type = Alert.AlertType.INFORMATION;
+        }
+
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
