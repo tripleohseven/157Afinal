@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.DashboardController">
+
+    <!-- Top title -->
+    <top>
+        <Label text="Hospital Management Dashboard"
+               style="-fx-font-size: 28px; -fx-text-fill: #2c3e50; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <!-- Center content (grid buttons) -->
+    <center>
+        <GridPane hgap="30" vgap="30" alignment="CENTER">
+            <padding>
+                <Insets top="50" right="50" bottom="50" left="50"/>
+            </padding>
+
+            <!-- Row 1 -->
+            <Button fx:id="registerPatientButton" text="Register New Patient"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px;"/>
+            <Button fx:id="viewPatientsButton" text="View/Edit Patients"
+                    GridPane.columnIndex="1"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px;"/>
+
+            <!-- Row 2 -->
+            <Button fx:id="manageAppointmentsButton" text="Manage Appointments"
+                    GridPane.rowIndex="1"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px;"/>
+            <Button fx:id="manageRecordsButton" text="Manage Medical Records"
+                    GridPane.columnIndex="1" GridPane.rowIndex="1"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px;"/>
+
+            <!-- Row 3 -->
+            <Button fx:id="viewDoctorsButton" text="View Doctors"
+                    GridPane.rowIndex="2"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px;"/>
+            <Button fx:id="exitButton" text="Exit"
+                    GridPane.columnIndex="1" GridPane.rowIndex="2"
+                    style="-fx-pref-width: 200px; -fx-pref-height: 60px; -fx-font-size: 14px; -fx-background-color: #e74c3c; -fx-text-fill: white;"/>
+        </GridPane>
+    </center>
+</BorderPane>
