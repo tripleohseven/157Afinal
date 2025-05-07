@@ -7,9 +7,14 @@
             fx:controller="com.hospital.controller.ViewPatientsController">
 
     <top>
-        <Label text="Patients List"
-               style="-fx-font-size: 24px; -fx-font-weight: bold;"
-               BorderPane.alignment="CENTER"/>
+        <VBox alignment="CENTER" spacing="10" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <Label text="Patients List"
+                   style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <TextField fx:id="searchField" promptText="Search by name or phone..." prefWidth="300"/>
+        </VBox>
     </top>
 
     <center>
@@ -31,6 +36,7 @@
                 <Insets top="20" right="20" bottom="20" left="20"/>
             </padding>
             <Button text="Edit Selected Patient" fx:id="editButton"/>
+            <Button text="Delete Selected Patient" fx:id="deleteButton"/>
             <Button text="Back to Dashboard" fx:id="backButton"/>
         </HBox>
     </bottom>

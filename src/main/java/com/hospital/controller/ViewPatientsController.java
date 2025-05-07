@@ -45,6 +45,14 @@ public class ViewPatientsController {
     private Button editButton;
 
     @FXML
+    private Button deleteButton;
+
+    @FXML
+    private TextField searchField;
+
+    private ObservableList<Patient> fullPatientList;
+
+    @FXML
     private void initialize() {
 
         // Link columns with Patient attributes
@@ -58,11 +66,15 @@ public class ViewPatientsController {
         // Load data
         loadPatients();
 
-        // Back button action
+        // Button actions
         backButton.setOnAction(e -> goBack());
-
-        // Edit button action
         editButton.setOnAction(e -> editSelectedPatient());
+        deleteButton.setOnAction(e -> deleteSelectedPatient());
+
+        // Search filter
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterPatients(newValue);
+        });
     }
 
     private void loadPatients() {
@@ -70,30 +82,66 @@ public class ViewPatientsController {
 
         try {
             List<Patient> patients = dao.selectAll();
-            ObservableList<Patient> patientsList = FXCollections.observableArrayList(patients);
-            patientsTable.setItems(patientsList);
-        } catch (Exception ex) {
+            fullPatientList = FXCollections.observableArrayList(patients);
+            patientsTable.setItems(fullPatientList);
+        } catch (SQLException ex) {
             ex.printStackTrace();
-            showAlert("Error", "Could not load appointments from the database.");
+            showAlert("Error", "Could not connect to the database or load patients.\nPlease make sure the database server is running.");
         }
     }
 
-    private void editSelectedPatient() {
-        Patient selectedPatient = patientsTable.getSelectionModel().getSelectedItem();
+    private void filterPatients(String filter) {
+        if (filter == null || filter.isEmpty()) {
+            patientsTable.setItems(fullPatientList);
+            return;
+        }
 
-        if (selectedPatient != null) {
-            // For now just show alert with patient info
-            showAlert("Edit Patient",
-                    "Selected Patient:\n\n" +
-                            "ID: " + selectedPatient.getPatientId() + "\n" +
-                            "Name: " + selectedPatient.getFullName() + "\n" +
-                            "DOB: " + selectedPatient.getDob() + "\n" +
-                            "Gender: " + selectedPatient.getGender() + "\n" +
-                            "Phone: " + selectedPatient.getPhone() + "\n" +
-                            "Address: " + selectedPatient.getAddress() + "\n\n" +
-                            "You can now continue to implement Edit screen if needed.");
+        ObservableList<Patient> filteredList = FXCollections.observableArrayList();
+        for (Patient patient : fullPatientList) {
+            if (patient.getFullName().toLowerCase().contains(filter.toLowerCase()) ||
+                    patient.getPhone().contains(filter)) {
+                filteredList.add(patient);
+            }
+        }
+
+        patientsTable.setItems(filteredList);
+    }
+
+    private void editSelectedPatient() {
+        Patient selected = patientsTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/EditPatient.fxml"));
+                Parent root = loader.load();
+
+                EditPatientController controller = loader.getController();
+                controller.setPatient(selected);
+
+                Stage stage = (Stage) editButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Could not open Edit Patient screen.");
+            }
         } else {
             showAlert("Warning", "Please select a patient to edit.");
+        }
+    }
+
+    private void deleteSelectedPatient() {
+        Patient selected = patientsTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            PatientDAO dao = new PatientDAO();
+            if (dao.delete(selected.getPatientId())) {
+                patientsTable.getItems().remove(selected);
+                fullPatientList.remove(selected);
+                showAlert("Success", "Patient deleted successfully.");
+            } else {
+                showAlert("Error", "Could not delete patient.");
+            }
+        } else {
+            showAlert("Warning", "Please select a patient to delete.");
         }
     }
 
