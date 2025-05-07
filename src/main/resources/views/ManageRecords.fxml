@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.ManageRecordsController">
+
+    <top>
+        <Label text="Manage Medical Records" style="-fx-font-size: 24px; -fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <TableView fx:id="recordsTable" prefHeight="400" prefWidth="600">
+            <columns>
+                <TableColumn text="Record ID" />
+                <TableColumn text="Patient Name" />
+                <TableColumn text="Diagnosis" />
+                <TableColumn text="Treatment" />
+                <TableColumn text="Doctor" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

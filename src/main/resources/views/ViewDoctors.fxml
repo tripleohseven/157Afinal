@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.ViewDoctorsController">
+
+    <top>
+        <Label text="View Doctors" style="-fx-font-size: 24px; -fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <TableView fx:id="doctorsTable" prefHeight="400" prefWidth="600">
+            <columns>
+                <TableColumn text="Doctor ID" />
+                <TableColumn text="Name" />
+                <TableColumn text="Specialization" />
+                <TableColumn text="Contact" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

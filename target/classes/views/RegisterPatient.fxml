@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.RegisterPatientController">
+
+    <top>
+        <Label text="Register New Patient"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <GridPane hgap="20" vgap="15" alignment="CENTER">
+            <padding>
+                <Insets top="30" right="30" bottom="30" left="30"/>
+            </padding>
+
+            <Label text="First Name:"/>
+            <TextField fx:id="firstNameField" GridPane.columnIndex="1"/>
+
+            <Label text="Last Name:" GridPane.rowIndex="1"/>
+            <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+            <Label text="Date of Birth:" GridPane.rowIndex="2"/>
+            <DatePicker fx:id="dobPicker" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <Label text="Gender:" GridPane.rowIndex="3"/>
+            <TextField fx:id="genderField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <Label text="Phone:" GridPane.rowIndex="4"/>
+            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+            <Label text="Address:" GridPane.rowIndex="5"/>
+            <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+            <Button text="Submit" fx:id="submitButton" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+        </GridPane>
+    </center>
+</BorderPane>

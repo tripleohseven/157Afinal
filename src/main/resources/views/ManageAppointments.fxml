@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hospital.controller.ManageAppointmentsController">
+
+    <top>
+        <Label text="Manage Appointments" style="-fx-font-size: 24px; -fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <VBox spacing="15" alignment="CENTER">
+            <TableView fx:id="appointmentsTable" prefHeight="400" prefWidth="600">
+                <columns>
+                    <TableColumn text="Appointment ID" />
+                    <TableColumn text="Patient Name" />
+                    <TableColumn text="Doctor" />
+                    <TableColumn text="Date" />
+                    <TableColumn text="Time" />
+                </columns>
+            </TableView>
+
+            <Button fx:id="addAppointmentButton" text="Add New Appointment"/>
+        </VBox>
+    </center>
+</BorderPane>
