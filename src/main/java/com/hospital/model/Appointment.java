@@ -19,6 +19,15 @@ public class Appointment {
         this.status = status;
     }
 
+    public Appointment(int patientId, int doctorId, String appointmentDate, String appointmentTime, String reason, String status) {
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
+        this.reason = reason;
+        this.status = status;
+    }
+
     // Getters
     public int getAppointmentId() { return appointmentId; }
     public int getPatientId() { return patientId; }

@@ -29,11 +29,13 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
-        registerPatientButton.setOnAction(e -> System.out.println("Register New Patient clicked"));
-        viewPatientsButton.setOnAction(e -> System.out.println("View/Edit Patients clicked"));
-        manageAppointmentsButton.setOnAction(e -> System.out.println("Manage Appointments clicked"));
-        manageRecordsButton.setOnAction(e -> System.out.println("Manage Medical Records clicked"));
-        viewDoctorsButton.setOnAction(e -> System.out.println("View Doctors clicked"));
+
+        registerPatientButton.setOnAction(e -> openScreen("/views/RegisterPatient.fxml"));
+        viewPatientsButton.setOnAction(e -> openScreen("/views/ViewPatients.fxml"));
+        manageAppointmentsButton.setOnAction(e -> openScreen("/views/ManageAppointments.fxml"));
+        manageRecordsButton.setOnAction(e -> openScreen("/views/ManageRecords.fxml"));
+        viewDoctorsButton.setOnAction(e -> openScreen("/views/ViewDoctors.fxml"));
+
         exitButton.setOnAction(e -> {
             Stage stage = (Stage) exitButton.getScene().getWindow();
             stage.close();
@@ -43,7 +45,8 @@ public class DashboardController {
     private void openScreen(String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
-            Scene scene = new Scene(loader.load());
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
             Stage stage = (Stage) registerPatientButton.getScene().getWindow();
             stage.setScene(scene);
             stage.show();

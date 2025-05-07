@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
@@ -6,18 +7,25 @@
             fx:controller="com.hospital.controller.ManageRecordsController">
 
     <top>
-        <Label text="Manage Medical Records" style="-fx-font-size: 24px; -fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
+        <Label text="Medical Records" style="-fx-font-size: 24px; -fx-font-weight: bold;" BorderPane.alignment="CENTER"/>
     </top>
 
     <center>
-        <TableView fx:id="recordsTable" prefHeight="400" prefWidth="600">
+        <TableView fx:id="recordsTable" prefHeight="500" prefWidth="800">
             <columns>
-                <TableColumn text="Record ID" />
-                <TableColumn text="Patient Name" />
-                <TableColumn text="Diagnosis" />
-                <TableColumn text="Treatment" />
-                <TableColumn text="Doctor" />
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="patientIdColumn" text="Patient ID" prefWidth="80"/>
+                <TableColumn fx:id="doctorIdColumn" text="Doctor ID" prefWidth="80"/>
+                <TableColumn fx:id="diagnosisColumn" text="Diagnosis" prefWidth="150"/>
+                <TableColumn fx:id="treatmentColumn" text="Treatment" prefWidth="150"/>
+                <TableColumn fx:id="notesColumn" text="Notes" prefWidth="150"/>
+                <TableColumn fx:id="dateColumn" text="Date" prefWidth="80"/>
             </columns>
         </TableView>
     </center>
+
+    <bottom>
+        <Button text="Back to Dashboard" fx:id="backButton" BorderPane.alignment="CENTER"/>
+    </bottom>
+
 </BorderPane>

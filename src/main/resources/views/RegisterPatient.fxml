@@ -36,7 +36,11 @@
             <Label text="Address:" GridPane.rowIndex="5"/>
             <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-            <Button text="Submit" fx:id="submitButton" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+            <HBox spacing="10" alignment="CENTER" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                <Button text="Submit" fx:id="submitButton"/>
+                <Button text="Back" fx:id="backButton"/>
+            </HBox>
         </GridPane>
     </center>
+
 </BorderPane>

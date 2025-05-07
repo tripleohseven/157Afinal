@@ -2,66 +2,77 @@
 CREATE DATABASE IF NOT EXISTS hospital_db;
 USE hospital_db;
 
--- Create medical_records table
-CREATE TABLE IF NOT EXISTS medical_records (
-    record_id INT AUTO_INCREMENT PRIMARY KEY,   -- Unique ID for each medical record
-    patient_id INT NOT NULL,                    -- Foreign key reference to patients table
-    doctor_id INT NOT NULL,                     -- Foreign key reference to doctors table
-    diagnosis VARCHAR(255) NOT NULL,            -- Patient's diagnosis
-    treatment TEXT,                                     -- Description of the treatment provided
-    notes TEXT,                                         -- Additional notes
-    date DATE NOT NULL,                                 -- Date of the record entry
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,     -- Record creation timestamp
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- Last update timestamp
-);
-
--- Create appointments table
-CREATE TABLE IF NOT EXISTS appointments (
-    appointment_id INT AUTO_INCREMENT PRIMARY KEY,           -- Unique ID for each appointment
-    patient_id INT NOT NULL,                                 -- Foreign key reference to patients table
-    doctor_id INT NOT NULL,                                  -- Foreign key reference to doctors table
-    appointment_date DATE NOT NULL,                          -- Date of the appointment
-    appointment_time TIME NOT NULL,                          -- Time of the appointment
-    reason VARCHAR(255) NOT NULL,                            -- Reason for the appointment
-    status VARCHAR(50) NOT NULL,                             -- Appointment status (e.g., scheduled, completed, canceled)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,          -- Record creation timestamp
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Last update timestamp
-);
-
--- Create patients table
+-- -------------------------
+-- Table: Patients
+-- -------------------------
 CREATE TABLE IF NOT EXISTS patients (
-    patient_id INT AUTO_INCREMENT PRIMARY KEY,               -- Unique ID for each patient
-    full_name VARCHAR(100) NOT NULL,                         -- Patient's full name
-    dob DATE NOT NULL,                                       -- Date of birth
-    gender VARCHAR(10),                                      -- Gender (optional)
-    phone VARCHAR(15),                                       -- Contact number
-    address VARCHAR(100),                                    -- Address
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,          -- Record creation timestamp
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Last update timestamp
-);
+                                        patient_id INT AUTO_INCREMENT PRIMARY KEY,
+                                        full_name VARCHAR(100) NOT NULL,
+    dob DATE NOT NULL,
+    gender VARCHAR(10) NOT NULL,
+    phone VARCHAR(20) NOT NULL,
+    address VARCHAR(200) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
 
--- Create doctors table
+-- -------------------------
+-- Table: Doctors
+-- -------------------------
 CREATE TABLE IF NOT EXISTS doctors (
-    doctor_id INT AUTO_INCREMENT PRIMARY KEY,                -- Unique ID for each doctor
-    full_name VARCHAR(100) NOT NULL,                         -- Doctor's full name
-    specialty VARCHAR(100),                                  -- Area of medical expertise
-    phone VARCHAR(15),                                       -- Contact number
-    department VARCHAR(100),                                 -- Department they belong to
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,          -- Record creation timestamp
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Last update timestamp
-);
+                                       doctor_id INT AUTO_INCREMENT PRIMARY KEY,
+                                       full_name VARCHAR(100) NOT NULL,
+    specialty VARCHAR(100),
+    phone VARCHAR(20),
+    department VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
 
--- Create users table 
+-- -------------------------
+-- Table: Medical Records
+-- -------------------------
+CREATE TABLE IF NOT EXISTS medical_records (
+                                               record_id INT AUTO_INCREMENT PRIMARY KEY,
+                                               patient_id INT NOT NULL,
+                                               doctor_id INT NOT NULL,
+                                               diagnosis VARCHAR(255) NOT NULL,
+    treatment TEXT,
+    notes TEXT,
+    date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+
+-- -------------------------
+-- Table: Appointments
+-- -------------------------
+CREATE TABLE IF NOT EXISTS appointments (
+                                            appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+                                            patient_id INT NOT NULL,
+                                            doctor_id INT NOT NULL,
+                                            appointment_date DATE NOT NULL,
+                                            appointment_time TIME NOT NULL,
+                                            reason VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+
+-- -------------------------
+-- Table: Users
+-- -------------------------
 CREATE TABLE IF NOT EXISTS users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,                  -- Unique user ID
-    username VARCHAR(50) UNIQUE NOT NULL,                    -- Unique username
-    password VARCHAR(100) NOT NULL,                          -- Password (should be hashed in production)
-    role VARCHAR(20) NOT NULL,                               -- User role (e.g., admin, doctor, nurse)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP           -- Record creation timestamp
+                                     user_id INT AUTO_INCREMENT PRIMARY KEY,
+                                     username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    role VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
 
-);
--- Add indexes for better query performance
-
+-- -------------------------
+-- Indexes
+-- -------------------------
 -- Speeds up lookups by patient or doctor in medical records
 CREATE INDEX idx_medical_records_patient_id ON medical_records(patient_id);
 CREATE INDEX idx_medical_records_doctor_id ON medical_records(doctor_id);
