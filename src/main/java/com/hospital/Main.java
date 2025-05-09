@@ -12,7 +12,7 @@ public class Main extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Login.fxml"));
         Scene scene = new Scene(loader.load());
 
-        primaryStage.setTitle("Hospital Management - Login");
+        primaryStage.setTitle("SJSU Hospital System - Login");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
