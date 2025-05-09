@@ -1,5 +1,7 @@
 package com.hospital.controller;
 
+import com.hospital.dao.UserDAO;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -35,25 +37,25 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (username.equals("admin") && password.equals("password")) {
-            errorLabel.setText("Login successful!");
+        UserDAO userDAO = new UserDAO();
+        boolean isValid = userDAO.isValidUser(username, password);
 
+        if (isValid) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Dashboard.fxml"));
                 Scene scene = new Scene(loader.load());
 
-                // Get current stage
+            // Get current stage
                 Stage stage = (Stage) loginButton.getScene().getWindow();
                 stage.setScene(scene);
                 stage.setTitle("Dashboard");
                 stage.show();
             } catch (Exception e) {
                 e.printStackTrace();
+                errorLabel.setText("Error loading dashboard.");
             }
-
         } else {
-            errorLabel.setText("Invalid username or password.");
+            errorLabel.setText("❌ Invalid username or password.");
         }
     }
-
 }

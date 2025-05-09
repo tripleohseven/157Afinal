@@ -57,7 +57,13 @@ public class EditPatientController {
 
         firstNameField.setText(firstName);
         lastNameField.setText(lastName);
-        dobPicker.setValue(LocalDate.parse(patient.getDob()));
+        try {
+            dobPicker.setValue(LocalDate.parse(patient.getDob()));
+        } catch (Exception e) {
+            System.out.println("Could not parse date of birth: " + patient.getDob());
+            dobPicker.setValue(null); // or set a default date if needed
+        }
+        
         genderField.setText(patient.getGender());
         phoneField.setText(patient.getPhone());
         addressField.setText(patient.getAddress());

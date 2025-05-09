@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -103,22 +104,25 @@ public class ViewDoctorsController {
      * Search doctors by full name or specialty
      */
     private void searchDoctors() {
-        String keyword = searchField.getText().trim().toLowerCase();
+        String keyword = searchField.getText().trim();
 
         if (keyword.isEmpty()) {
             showAlert("Warning", "Please enter a search term.");
             return;
         }
 
-        List<Doctor> filtered = doctorList.stream()
-                .filter(doc -> doc.getFullName().toLowerCase().contains(keyword) ||
-                        doc.getSpecialty().toLowerCase().contains(keyword))
-                .collect(Collectors.toList());
+        DoctorDAO dao = new DoctorDAO();
+        try {
+            List<Doctor> filtered = dao.searchByNameOrSpecialty(keyword);
+            doctorsTable.setItems(FXCollections.observableArrayList(filtered));
 
-        doctorsTable.setItems(FXCollections.observableArrayList(filtered));
+            if (filtered.isEmpty()) {
+                showAlert("Info", "No matching doctors found.");
+            }
 
-        if (filtered.isEmpty()) {
-            showAlert("Info", "No matching doctors found.");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            showAlert("Error", "Could not search doctors.");
         }
     }
 

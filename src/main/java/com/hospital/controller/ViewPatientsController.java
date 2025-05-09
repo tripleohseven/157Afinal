@@ -89,6 +89,7 @@ public class ViewPatientsController {
 
         try {
             List<Patient> patients = dao.selectAll();
+            // Here, we display all current patients from the database using a SELECT query in our DAO. The results are loaded on screen when the view initializes.
             fullPatientList = FXCollections.observableArrayList(patients);
             patientsTable.setItems(fullPatientList);
         } catch (SQLException ex) {
@@ -210,4 +211,5 @@ public class ViewPatientsController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+    
 }

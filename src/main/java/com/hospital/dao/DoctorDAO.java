@@ -87,4 +87,29 @@ public class DoctorDAO {
             return pstmt.executeUpdate() > 0;
         }
     }
+    public List<Doctor> searchByNameOrSpecialty(String keyword) throws SQLException {
+        List<Doctor> doctors = new ArrayList<>();
+        String sql = "SELECT * FROM doctors WHERE full_name LIKE ? OR specialty LIKE ?";
+    
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            String pattern = "%" + keyword + "%";
+            pstmt.setString(1, pattern);
+            pstmt.setString(2, pattern);
+            ResultSet rs = pstmt.executeQuery();
+    
+            while (rs.next()) {
+                doctors.add(new Doctor(
+                    rs.getInt("doctor_id"),
+                    rs.getString("full_name"),
+                    rs.getString("specialty"),
+                    rs.getString("phone"),
+                    rs.getString("department")
+                ));
+            }
+        }
+    
+        return doctors;
+    }
+    
 }

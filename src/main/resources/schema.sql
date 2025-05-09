@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- Indexes
 -- -------------------------
 -- Speeds up lookups by patient or doctor in medical records
+/*
 CREATE INDEX idx_medical_records_patient_id ON medical_records(patient_id);
 CREATE INDEX idx_medical_records_doctor_id ON medical_records(doctor_id);
 
@@ -89,8 +90,8 @@ CREATE INDEX idx_doctors_specialty ON doctors(specialty);
 
 -- Ensures fast login and enforces username uniqueness
 CREATE UNIQUE INDEX idx_users_username ON users(username);
+*/
 
-/*
 -- Insert our sample data
 INSERT INTO patients (full_name, dob, gender, phone, address)
 VALUES 
@@ -200,4 +201,4 @@ VALUES
 (4, 5, 'Post-Seizure Review', 'Neurological exam normal, no meds adjusted.', 'EEG scheduled.', '2025-03-23'),
 (6, 7, 'Depressive Disorder', 'Therapy ongoing, mood improved.', 'Will reassess meds next visit.', '2025-02-24'),
 (8, 9, 'Dysmenorrhea', 'Prescribed NSAIDs and OCP.', 'Patient counseled on symptom tracking.', '2025-01-25');
-*/
+
