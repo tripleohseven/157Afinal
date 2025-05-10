@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS medical_records (
 -- Table: Appointments
 -- -------------------------
 CREATE TABLE IF NOT EXISTS appointments (
-    appointment_id INT AUTO_INCREMENT PRIMARY KEY 
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
     doctor_id INT NOT NULL,
     appointment_date DATE NOT NULL,
