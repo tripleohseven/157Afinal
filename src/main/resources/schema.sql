@@ -6,22 +6,24 @@ USE hospital_db;
 -- Table: Patients
 -- -------------------------
 CREATE TABLE IF NOT EXISTS patients (
-                                        patient_id INT AUTO_INCREMENT PRIMARY KEY,
-                                        full_name VARCHAR(100) NOT NULL,
+    patient_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
     dob DATE NOT NULL,
     gender VARCHAR(10) NOT NULL,
     phone VARCHAR(20) NOT NULL,
     address VARCHAR(200) NOT NULL,
+    user_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  
     );
 
 -- -------------------------
 -- Table: Doctors
 -- -------------------------
 CREATE TABLE IF NOT EXISTS doctors (
-                                       doctor_id INT AUTO_INCREMENT PRIMARY KEY,
-                                       full_name VARCHAR(100) NOT NULL,
+    doctor_id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
     specialty VARCHAR(100),
     phone VARCHAR(20),
     department VARCHAR(100),
@@ -33,10 +35,10 @@ CREATE TABLE IF NOT EXISTS doctors (
 -- Table: Medical Records
 -- -------------------------
 CREATE TABLE IF NOT EXISTS medical_records (
-                                               record_id INT AUTO_INCREMENT PRIMARY KEY,
-                                               patient_id INT NOT NULL,
-                                               doctor_id INT NOT NULL,
-                                               diagnosis VARCHAR(255) NOT NULL,
+record_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    diagnosis VARCHAR(255) NOT NULL,
     treatment TEXT,
     notes TEXT,
     date DATE NOT NULL,
@@ -48,12 +50,12 @@ CREATE TABLE IF NOT EXISTS medical_records (
 -- Table: Appointments
 -- -------------------------
 CREATE TABLE IF NOT EXISTS appointments (
-                                            appointment_id INT AUTO_INCREMENT PRIMARY KEY,
-                                            patient_id INT NOT NULL,
-                                            doctor_id INT NOT NULL,
-                                            appointment_date DATE NOT NULL,
-                                            appointment_time TIME NOT NULL,
-                                            reason VARCHAR(255) NOT NULL,
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY 
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    appointment_date DATE NOT NULL,
+    appointment_time TIME NOT NULL,
+    reason VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -63,8 +65,8 @@ CREATE TABLE IF NOT EXISTS appointments (
 -- Table: Users
 -- -------------------------
 CREATE TABLE IF NOT EXISTS users (
-                                     user_id INT AUTO_INCREMENT PRIMARY KEY,
-                                     username VARCHAR(50) UNIQUE NOT NULL,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
     role VARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
