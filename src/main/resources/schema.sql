@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS doctors (
 -- Table: Medical Records
 -- -------------------------
 CREATE TABLE IF NOT EXISTS medical_records (
-record_id INT AUTO_INCREMENT PRIMARY KEY,
+    record_id INT AUTO_INCREMENT PRIMARY KEY,
     patient_id INT NOT NULL,
     doctor_id INT NOT NULL,
     diagnosis VARCHAR(255) NOT NULL,
