@@ -25,10 +25,8 @@ CREATE TABLE IF NOT EXISTS doctors (
     specialty VARCHAR(100),
     phone VARCHAR(20),
     department VARCHAR(100),
-    user_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
 
 -- -------------------------
